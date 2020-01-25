@@ -4,10 +4,22 @@ import json
 
 
 def addtoDic (words, clues):
+    tempDic = {}
     for i in range(len(words)):
         temp = tuple(words[i])
-        # print(temp)
-        globalDic[temp] = clues[i]
+        clue = clues[i][clues[i].find(' ') + 1:] # removes the clue number from the front of the clue
+        tempDic[temp] = clue
+    return tempDic
+
+
+def formatClues(acrossCluesList, downCluesList):
+    acrossColumn = 'Across:\n'
+    for clue in acrossCluesList:
+        acrossColumn += clue + '\n'
+    downColumn = 'Down\n'
+    for clue in downCluesList:
+        downColumn += clue + '\n'
+    return acrossColumn, downColumn
 
 
 file = open(input("Enter name of crossword file to open: "))
@@ -31,9 +43,6 @@ allClues = acrossClues + downClues
 grid = jsonDta['grid']
 gridNums = jsonDta['gridnums']
 
-globalDic = {}
-print(globalDic)
-print("this line is a break")
-addtoDic(allWords, allClues)
-print(globalDic)
-
+acrossString, downString = formatClues(acrossClues, downClues)
+print(acrossString)
+print(downString)
