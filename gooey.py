@@ -55,30 +55,28 @@ def windowMaker(length, width, grid, gridNums):
 
         varList[currX][currY].set(value)
         dir = True
+        num = 1
+
         if dir:
+            while currY + num < length and varList[currX][currY + num].get() == ".":
+                num += 1
             if currY < length - 1:
-                count = 1
-                while currY + count < length and varList[currX][currY + count].get() == ".":
-                    count += 1
-                if currY + count < length - 1:
-                    textBoxes[currX][currY + count].focus()
+                if currY + num < length - 1:
+                    textBoxes[currX][currY + num].focus()
                 textBoxes[currX][currY + 1].focus()
             currY += 1
             if currY >= length:
                 currY = 0
-                count = 0
-                while currY < length and varList[currX][currY + count].get() == ".":
-                    count += 1
+                num = 0
                 currX += 1
-                textBoxes[currX][currY + count].focus()
+                textBoxes[currX][currY + num].focus()
         else:
             if currX < width - 1:
-                count = 1
-                while currX + count < width and varList[currX + count][currY].get() == ".":
+                while currX + num < width and varList[currX + num][currY].get() == ".":
                     print("pepe")
-                    count += 1
+                    num += 1
                 if currX < width - 1:
-                    textBoxes[currX + count][currY].focus()
+                    textBoxes[currX + num][currY].focus()
                 textBoxes[currX + 1][currY].focus()
             currX += 1
             if currX >= width:
