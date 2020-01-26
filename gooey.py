@@ -94,8 +94,8 @@ def windowMaker(length, width, grid, gridNums):
 
 def displayClues(acrossString, downString, canvas):
     c = canvas
-    c.create_text(800, 400, fill="black", font=("Comic Sans MS", 10), text=acrossString)
-    c.create_text(1000, 400, fill="black", font=("Comic Sans MS", 10), text=downString)
+    c.create_text(800, 60, fill="black", font=("Comic Sans MS", 8), text=acrossString, anchor='nw')
+    c.create_text(1000, 60, fill="black", font=("Comic Sans MS", 8), text=downString, anchor='nw')
 
 
 # Begin main
