@@ -108,12 +108,17 @@ def windowMaker(length, width, grid, gridNums):
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
 
-            eFrame = Frame(root, width=25, height=25)
-            eFrame.pack()
+            '''eFrame = Frame(root, width=25, height=25)
+            eFrame.pack()'''
 
             if grid[count] == ".":
+                eFrame = Frame(root, width=25, height=25, background="black")
+                eFrame.pack()
                 c.create_rectangle(xr, yr, xr + rsize, yr + rsize, fill="black")
+                t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
             else:
+                eFrame = Frame(root, width=25, height=25)
+                eFrame.pack()
                 e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
                           textvariable=var)
                 # adding each entry to a list, so they can be accessed later (for checking purposes)
@@ -121,7 +126,8 @@ def windowMaker(length, width, grid, gridNums):
 
                 e.place(x=0, y=0, height=25, width=25)
                 t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
-                handles[y][x] = (r, t)
+
+            handles[y][x] = (r, t)
 
             varRow.append(var)
 
