@@ -30,6 +30,11 @@ def compareAnswer(userAnswers, answers):
             break # implement after merging with the gui
 
 
+# def correctText(*args):
+
+
+
+
 def windowMaker(length, width, grid, gridNums):
     root = Tk()
     root.title("Crossword Simulator 2020")
@@ -51,9 +56,11 @@ def windowMaker(length, width, grid, gridNums):
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
     userInputs = []
+    textBoxes = []
 
     for y in range(1, 11):
         row = []
+        boxRow = []
         for x in range(1, 11):
             row.append(".")
             (xr, yr) = (x * rsize, y * rsize)
@@ -62,10 +69,12 @@ def windowMaker(length, width, grid, gridNums):
             eFrame = Frame(root, width=40, height=39)
             eFrame.pack()
 
-            e = Entry(eFrame, font=("Comic Sans MS", 24))
+            e = Entry(eFrame, font=("Comic Sans MS", 24), relief="flat", highlightcolor="white")
+            boxRow.append(e)
             e.place(x=0, y=0, height=40, width=39)
             t = c.create_window(xr + rsize / 2, yr + rsize / 2, window=eFrame)
             handles[y][x] = (r, t)
+        textBoxes.append(boxRow)
         userInputs.append(row)
 
     root.canvas = c
