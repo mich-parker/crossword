@@ -3,6 +3,7 @@
 import json
 from tkinter import *
 import tkinter.font as font
+from functools import partial
 
 
 def addtoDic (words, clues):
@@ -13,26 +14,52 @@ def addtoDic (words, clues):
         tempDic[temp] = clue
     return tempDic
 
+'''
+class Direction:
+    def __init__(self, master):
+        self.dir = True
+
+    def getDirection(self):
+        return dir
+
+    def setDirectionAcross(self):
+        self.dir = True
+
+    def setDirectionDown(self):
+        self.dir = False
+'''
+
 
 def formatClues(acrossCluesList, downCluesList):
+    # aSelector = Button(text='Across', command=Direction.setDirectionAcross)
+    # aSelector.pack()
+
     acrossColumn = 'Across:\n'
     for clue in acrossCluesList:
         acrossColumn += clue + '\n'
-    downColumn = 'Down\n'
+
+    # dSelector = Button(text='Down', command=Direction.setDirectionDown)
+    # dSelector.pack()
+
+    downColumn = 'Down:\n'
     for clue in downCluesList:
         downColumn += clue + '\n'
     return acrossColumn, downColumn
 
 
 def windowMaker(length, width, grid, gridNums):
-
-    def correctText(*args):
-        value = var.get()
+    def correctText(currX, currY, *args):
+        value = varList[currX][currY].get()
 
         if len(value) > 1: value = value[len(value) - 1]
         value = value.upper()
 
-        var.set(value)
+        varList[currX][currY].set(value)
+        if currX < length and dir == True:
+            textBoxes[currX + 1][currY].focus_set()
+
+        if currY < width and dir == False:
+            textBoxes[currX][currY + 1].focus_set()
 
         """ OG Code that kinda works
         curr = varList[x][y]
@@ -45,11 +72,11 @@ def windowMaker(length, width, grid, gridNums):
         """
 
     def compareAnswer(*args):
-        test = []
+        userInputs = []
         for stuff in varList:
-            for shit in stuff:
-                test.append(shit.get())
-        print(test)
+            for thing in stuff:
+                userInputs.append(thing.get())
+        # print(userInputs)
         '''for i in range(0, len(grid)):
             if test[i] != grid[i]:
                 
@@ -61,18 +88,13 @@ def windowMaker(length, width, grid, gridNums):
         count = 0
         for x in range(0, len(textBoxes)):
             for y in range(0, len(textBoxes[x])):
-                if test[count] != grid[count]:
-                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
-                          textvariable=var, foreground="red")
-                    textBoxes[x][y] = e
-                    c.update()
-                    print(test[count], "That shit wrong yo")
+                if userInputs[count] == grid[count]:
+                    textBoxes[x][y].configure(fg="blue")
+                    # print(userInputs[count], "is correct")
+                elif userInputs[count] == "":
+                    textBoxes[x][y].configure(fg="black")
                 else:
-                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
-                              textvariable=var, foreground="black")
-                    textBoxes[x][y] = e
-                    c.update()
-                    print(test[count], "is correct")
+                    textBoxes[x][y].configure(fg="red")
                 count += 1
 
     root = Tk()
@@ -93,7 +115,6 @@ def windowMaker(length, width, grid, gridNums):
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
 
-    userInputs = []
     textBoxes = []
     varList = []
 
@@ -102,29 +123,32 @@ def windowMaker(length, width, grid, gridNums):
         boxRow = []
         varRow =[]
 
+        currY = y - 1
+
         for x in range(1, width + 1):
+            currX = x - 1
             var = StringVar()
 
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
 
-            '''eFrame = Frame(root, width=25, height=25)
-            eFrame.pack()'''
-
             if grid[count] == ".":
                 eFrame = Frame(root, width=25, height=25, background="black")
                 eFrame.pack()
                 c.create_rectangle(xr, yr, xr + rsize, yr + rsize, fill="black")
-                t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
+                e = Entry(eFrame, textvariable=var)
+                var.set('.')
             else:
-                eFrame = Frame(root, width=25, height=25)
+                eFrame = Frame(root, width=30, height=25)
                 eFrame.pack()
                 e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
                           textvariable=var)
                 # adding each entry to a list, so they can be accessed later (for checking purposes)
-                boxRow.append(e)
 
-                e.place(x=0, y=0, height=25, width=25)
+                e.place(x=0, y=0, height=25, width=30)
+
+            boxRow.append(e)
+
             t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
             handles[y][x] = (r, t)
 
@@ -137,9 +161,9 @@ def windowMaker(length, width, grid, gridNums):
         textBoxes.append(boxRow)
         varList.append(varRow)
 
-    '''for y in range(0, length):
+    for y in range(0, length):
         for x in range(0, width):
-            textBoxes[x][y].bind("<Key>", correctText)'''
+            varList[x][y].trace('w', partial(correctText, x, y))
 
     root.canvas = c
     checkButton = Button(text="Check Puzzle", command=compareAnswer)
@@ -156,12 +180,13 @@ def windowMaker(length, width, grid, gridNums):
 
 def displayClues(acrossString, downString, canvas):
     c = canvas
-    c.create_text(850, 60, fill="black", font=("Comic Sans MS", 8), text=acrossString, anchor='nw')
-    c.create_text(1050, 60, fill="black", font=("Comic Sans MS", 8), text=downString, anchor='nw')
+    c.create_text(850, 60, fill="black", font=("Comic Sans MS", 15), text=acrossString, anchor='nw')
+    c.create_text(1050, 60, fill="black", font=("Comic Sans MS", 15), text=downString, anchor='nw')
 
 
 # Begin main
 file = open("crosswords/1976/01/01.json")
+# direct = Direction()
 
 jsonDta = json.load(file)
 
