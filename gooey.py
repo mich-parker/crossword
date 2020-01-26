@@ -2,7 +2,6 @@
 
 import json
 from tkinter import *
-import tkinter.font as font
 from functools import partial
 
 
@@ -53,13 +52,41 @@ def windowMaker(length, width, grid, gridNums):
 
         if len(value) > 1: value = value[len(value) - 1]
         value = value.upper()
+        dir = True
 
         varList[currX][currY].set(value)
-        if currX < length and dir == True:
-            textBoxes[currX + 1][currY].focus_set()
 
-        if currY < width and dir == False:
-            textBoxes[currX][currY + 1].focus_set()
+        if dir:
+            if currY < length - 1:
+                count = 1
+                while currY + count < length and varList[currX][currY + count].get() == ".":
+                    count += 1
+                if currY + count < length - 1:
+                    textBoxes[currX][currY + count].focus()
+                textBoxes[currX][currY + 1].focus()
+            currY += 1
+            if currY >= length:
+                currY = 0
+                count = 0
+                while currY < length and varList[currX][currY + count].get() == ".":
+                    count += 1
+                currX += 1
+                textBoxes[currX][currY + count].focus()
+        else:
+            if currX < width - 1:
+                count = 1
+                while currX + count < width and varList[currX + count][currY].get() == ".":
+                    print("pepe")
+                    count += 1
+                if currX < width - 1:
+                    textBoxes[currX + count][currY].focus()
+                textBoxes[currX + 1][currY].focus()
+            currX += 1
+            if currX >= width:
+                print(currX, currY, width)
+                currX = 0
+                currY += 1
+                textBoxes[currX][currY].focus()
 
         """ OG Code that kinda works
         curr = varList[x][y]
@@ -89,7 +116,7 @@ def windowMaker(length, width, grid, gridNums):
         for x in range(0, len(textBoxes)):
             for y in range(0, len(textBoxes[x])):
                 if userInputs[count] == grid[count]:
-                    textBoxes[x][y].configure(fg="blue")
+                    textBoxes[x][y].configure(fg="blue", state="disabled")
                     # print(userInputs[count], "is correct")
                 elif userInputs[count] == "":
                     textBoxes[x][y].configure(fg="black")
