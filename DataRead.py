@@ -21,6 +21,11 @@ def formatClues(acrossCluesList, downCluesList):
         downColumn += clue + '\n'
     return acrossColumn, downColumn
 
+def compareAnswer(userAnswers, answers):
+    for i in range(len(answers)):
+        if userAnswers[i] != answers[i]:
+            break # implement after merging with the gui
+
 
 file = open(input("Enter name of crossword file to open: "))
 
