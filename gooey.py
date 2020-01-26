@@ -70,7 +70,7 @@ def windowMaker(length, width, grid, gridNums):
 
     root = Tk()
     root.title("Crossword Simulator 2020")
-    root.minsize(1200, 800)
+    root.minsize(1500, 950)
 
     mycolor = '#%02x%02x%02x' % (255, 255, 255)
 
@@ -114,8 +114,7 @@ def windowMaker(length, width, grid, gridNums):
                 boxRow.append(e)
 
                 e.place(x=0, y=0, height=25, width=25)
-                t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
-
+            t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
             handles[y][x] = (r, t)
 
             varRow.append(var)
