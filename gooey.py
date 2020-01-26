@@ -73,7 +73,7 @@ def windowMaker(length, width, grid, gridNums):
         userInputs.append(row)
 
     root.canvas = c
-    checkButton = Button(text="Check Puzzle", command=compareAnswer('',''))
+    checkButton = Button(text="Check Puzzle", command=compareAnswer)
     checkButton.config(height=3, width=20)
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
@@ -114,4 +114,4 @@ gridNums = jsonDta['gridnums']
 
 acrossString, downString = formatClues(acrossClues, downClues)
 
-windowMaker(rows, columns, grid, gridNums)
+windowMaker(5, 5, grid, gridNums)
