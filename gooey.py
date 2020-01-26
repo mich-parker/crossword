@@ -183,14 +183,14 @@ def displayClues(acrossString, downString, canvas):
     c.create_text(850, 60, fill="black", font=("Comic Sans MS", 15), text=acrossString, anchor='nw')
     c.create_text(1150, 60, fill="black", font=("Comic Sans MS", 15), text=downString, anchor='nw')
 
-
+columns = 0
 # Begin main
-file = open(getCrossword())
-# direct = Direction()
+while columns != 15:
+    file = open(getCrossword())
+    # direct = Direction()
+    jsonDta = json.load(file)
+    columns = jsonDta['size']['cols']
 
-jsonDta = json.load(file)
-
-columns = jsonDta['size']['cols']
 rows = jsonDta['size']['rows']
 author = jsonDta['author']
 editor = jsonDta['editor']
