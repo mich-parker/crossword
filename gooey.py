@@ -47,16 +47,14 @@ def formatClues(acrossCluesList, downCluesList):
 
 
 def windowMaker(length, width, grid, gridNums):
-    dir = True
     def correctText(currX, currY, *args):
         value = varList[currX][currY].get()
 
         if len(value) > 1: value = value[len(value) - 1]
         value = value.upper()
-        dir = True
 
         varList[currX][currY].set(value)
-
+        dir = True
         if dir:
             if currY < length - 1:
                 count = 1
@@ -89,34 +87,16 @@ def windowMaker(length, width, grid, gridNums):
                 currY += 1
                 textBoxes[currX][currY].focus()
 
-        """ OG Code that kinda works
-        curr = varList[x][y]
-        value = curr.get()
-
-        if len(value) > 1: value = value[len(value) - 1]
-        value = value.upper()
-
-        var.set(value)
-        """
-
     def compareAnswer(*args):
         userInputs = []
         for stuff in varList:
             for thing in stuff:
                 userInputs.append(thing.get())
-        # print(userInputs)
-        '''for i in range(0, len(grid)):
-            if test[i] != grid[i]:
-                
-                e.config(background="red")
-                print(test[i], "That shit wrong yo")
-            else:
-                print(test[i], "is correct")
-'''
         count = 0
         for x in range(0, len(textBoxes)):
             for y in range(0, len(textBoxes[x])):
                 if userInputs[count] == grid[count]:
+                    userInputs[count] = "."
                     textBoxes[x][y].configure(state="disabled")
                     # print(userInputs[count], "is correct")
                 elif userInputs[count] == "":
@@ -155,10 +135,7 @@ def windowMaker(length, width, grid, gridNums):
         boxRow = []
         varRow =[]
 
-        currY = y - 1
-
         for x in range(1, width + 1):
-            currX = x - 1
             var = StringVar()
 
             (xr, yr) = (x * rsize, y * rsize)
