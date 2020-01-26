@@ -24,13 +24,6 @@ def formatClues(acrossCluesList, downCluesList):
     return acrossColumn, downColumn
 
 
-def compareAnswer(userAnswers, answers):
-    for i in range(len(answers)):
-        if userAnswers[i] != answers[i]:
-            break # implement after merging with the gui
-
-
-
 def windowMaker(length, width, grid, gridNums):
 
     def correctText(*args):
@@ -51,6 +44,37 @@ def windowMaker(length, width, grid, gridNums):
         var.set(value)
         """
 
+    def compareAnswer(*args):
+        test = []
+        for stuff in varList:
+            for shit in stuff:
+                test.append(shit.get())
+        print(test)
+        '''for i in range(0, len(grid)):
+            if test[i] != grid[i]:
+                
+                e.config(background="red")
+                print(test[i], "That shit wrong yo")
+            else:
+                print(test[i], "is correct")
+'''
+        count = 0
+        for x in range(0, len(textBoxes)):
+            for y in range(0, len(textBoxes[x])):
+                if test[count] != grid[count]:
+                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
+                          textvariable=var, foreground="red")
+                    textBoxes[x][y] = e
+                    c.update()
+                    print(test[count], "That shit wrong yo")
+                else:
+                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
+                              textvariable=var, foreground="black")
+                    textBoxes[x][y] = e
+                    c.update()
+                    print(test[count], "is correct")
+                count += 1
+
     root = Tk()
     root.title("Crossword Simulator 2020")
     root.minsize(1200, 800)
@@ -62,13 +86,14 @@ def windowMaker(length, width, grid, gridNums):
 
     rects = [[None for x in range(width + 1)] for y in range(length + 1)]
     handles = [[None for x in range(width + 1)] for y in range(length + 1)]
-    rsize = 512 / 12
-    guidesize = 512 / 0.8
+    rsize = 512 / 10
+    guidesize = 512 / 0.665
 
     (xr, yr) = (1 * rsize, 1 * rsize)
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
 
+    userInputs = []
     textBoxes = []
     varList = []
 
@@ -83,28 +108,27 @@ def windowMaker(length, width, grid, gridNums):
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
 
-            eFrame = Frame(root, width=39, height=39)
+            eFrame = Frame(root, width=25, height=25)
             eFrame.pack()
 
-            var = StringVar(eFrame)
+            if grid[count] == ".":
+                c.create_rectangle(xr, yr, xr + rsize, yr + rsize, fill="black")
+            else:
+                e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
+                          textvariable=var)
+                # adding each entry to a list, so they can be accessed later (for checking purposes)
+                boxRow.append(e)
 
-            e = Entry(eFrame, font=("Comic Sans MS", 24), relief="flat", highlightcolor="white", justify="center",
-                      textvariable=var)
+                e.place(x=0, y=0, height=25, width=25)
+                t = c.create_window(xr + rsize / 2 + 5, yr + rsize / 2 + 5, window=eFrame)
+                handles[y][x] = (r, t)
 
             varRow.append(var)
-
-            # adding each entry to a list, so they can be accessed later (for checking purposes)
-            boxRow.append(e)
-
-            var.trace('w', correctText)
-
-            e.place(x=0, y=0, height=39, width=39)
-            t = c.create_window(xr + 10 + rsize / 2, yr + 10 + rsize / 2, window=eFrame)
-            handles[y][x] = (r, t)
 
             if gridNums[count] != 0:
                 c.create_text(xr + 10, yr + 10, fill="black", font=("Comic Sans MS", 10), text=gridNums[count])
             count += 1
+
         textBoxes.append(boxRow)
         varList.append(varRow)
 
@@ -120,18 +144,19 @@ def windowMaker(length, width, grid, gridNums):
     displayClues(acrossString, downString, c)
 
     # c.bind("<Key>", correctText)
+    # compareAnswer(varList, grid)
 
     root.mainloop()
 
 
 def displayClues(acrossString, downString, canvas):
     c = canvas
-    c.create_text(800, 60, fill="black", font=("Comic Sans MS", 8), text=acrossString, anchor='nw')
-    c.create_text(1000, 60, fill="black", font=("Comic Sans MS", 8), text=downString, anchor='nw')
+    c.create_text(850, 60, fill="black", font=("Comic Sans MS", 8), text=acrossString, anchor='nw')
+    c.create_text(1050, 60, fill="black", font=("Comic Sans MS", 8), text=downString, anchor='nw')
 
 
 # Begin main
-file = open(input("Enter name of crossword file to open: "))
+file = open("crosswords/1976/01/01.json")
 
 jsonDta = json.load(file)
 
