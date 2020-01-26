@@ -17,16 +17,16 @@ def addtoDic (words, clues):
 
 
 def getCrossword():
-    year = random.choice(os.listdir(os.getcwd() + "\Crosswords"))
+    year = random.choice(os.listdir(os.getcwd() + "/Crosswords"))
     year = os.path.basename(year)
     print(year)
-    month = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year))
+    month = random.choice(os.listdir(os.getcwd() + "/Crosswords/" + year))
     month = os.path.basename(month)
     print(month)
-    day = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year + "\\" + month))
+    day = random.choice(os.listdir(os.getcwd() + "/Crosswords/" + year + "/" + month))
     day = os.path.basename(day)
     print(day)
-    return os.getcwd() + "\\Crosswords\\" + year + "\\" + month + "\\" + day
+    return os.getcwd() + "/Crosswords/" + year + "/" + month + "/" + day
 
 
 def formatClues(acrossCluesList, downCluesList):
@@ -73,7 +73,6 @@ def windowMaker(length, width, grid, gridNums):
         else:
             if currX < width - 1:
                 while currX + num < width and varList[currX + num][currY].get() == ".":
-                    print("pepe")
                     num += 1
                 if currX < width - 1:
                     textBoxes[currX + num][currY].focus()
@@ -102,20 +101,6 @@ def windowMaker(length, width, grid, gridNums):
                 else:
                     textBoxes[x][y].configure(fg="red")
                 count += 1
-
-
-    '''def getCrossword():
-        year = random.choice(os.listdir(os.getcwd() + "\Crosswords"))
-        year = os.path.basename(year)
-        print(year)
-        month = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year))
-        month = os.path.basename(month)
-        print(month)
-        day = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year + "\\" + month))
-        day = os.path.basename(day)
-        print(day)
-        return os.getcwd() + "\\Crosswords\\" + year + "\\" + month + "\\" + day'''
-
 
 
     root = Tk()
@@ -196,7 +181,7 @@ def windowMaker(length, width, grid, gridNums):
 def displayClues(acrossString, downString, canvas):
     c = canvas
     c.create_text(850, 60, fill="black", font=("Comic Sans MS", 15), text=acrossString, anchor='nw')
-    c.create_text(1050, 60, fill="black", font=("Comic Sans MS", 15), text=downString, anchor='nw')
+    c.create_text(1150, 60, fill="black", font=("Comic Sans MS", 15), text=downString, anchor='nw')
 
 
 # Begin main
