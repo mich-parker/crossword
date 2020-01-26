@@ -29,9 +29,6 @@ def compareAnswer(userAnswers, answers):
         if userAnswers[i] != answers[i]:
             break # implement after merging with the gui
 
-def compareAnswer():
-    print("CHECKED")
-
 
 def windowMaker(length, width, grid, gridNums):
     root = Tk()
