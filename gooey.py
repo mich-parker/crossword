@@ -50,14 +50,7 @@ def windowMaker(length, width, grid, gridNums):
             for shit in stuff:
                 test.append(shit.get())
         print(test)
-        '''for i in range(0, len(grid)):
-            if test[i] != grid[i]:
-                
-                e.config(background="red")
-                print(test[i], "That shit wrong yo")
-            else:
-                print(test[i], "is correct")
-'''
+
         count = 0
         for x in range(0, len(textBoxes)):
             for y in range(0, len(textBoxes[x])):
@@ -65,13 +58,13 @@ def windowMaker(length, width, grid, gridNums):
                     e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
                           textvariable=var, foreground="red")
                     textBoxes[x][y] = e
-                    c.update()
+                    e.update()
                     print(test[count], "That shit wrong yo")
                 else:
                     e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
                               textvariable=var, foreground="black")
                     textBoxes[x][y] = e
-                    c.update()
+                    e.update()
                     print(test[count], "is correct")
                 count += 1
 
@@ -93,7 +86,6 @@ def windowMaker(length, width, grid, gridNums):
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
 
-    userInputs = []
     textBoxes = []
     varList = []
 
@@ -107,9 +99,6 @@ def windowMaker(length, width, grid, gridNums):
 
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
-
-            '''eFrame = Frame(root, width=25, height=25)
-            eFrame.pack()'''
 
             if grid[count] == ".":
                 eFrame = Frame(root, width=25, height=25, background="black")
@@ -148,9 +137,6 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
     displayClues(acrossString, downString, c)
-
-    # c.bind("<Key>", correctText)
-    # compareAnswer(varList, grid)
 
     root.mainloop()
 
