@@ -3,6 +3,8 @@
 import json
 from tkinter import *
 from functools import partial
+import random
+import os
 
 
 def addtoDic (words, clues):
@@ -13,20 +15,18 @@ def addtoDic (words, clues):
         tempDic[temp] = clue
     return tempDic
 
-'''
-class Direction:
-    def __init__(self, master):
-        self.dir = True
 
-    def getDirection(self):
-        return dir
-
-    def setDirectionAcross(self):
-        self.dir = True
-
-    def setDirectionDown(self):
-        self.dir = False
-'''
+def getCrossword():
+    year = random.choice(os.listdir(os.getcwd() + "\Crosswords"))
+    year = os.path.basename(year)
+    print(year)
+    month = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year))
+    month = os.path.basename(month)
+    print(month)
+    day = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year + "\\" + month))
+    day = os.path.basename(day)
+    print(day)
+    return os.getcwd() + "\\Crosswords\\" + year + "\\" + month + "\\" + day
 
 
 def formatClues(acrossCluesList, downCluesList):
@@ -105,9 +105,20 @@ def windowMaker(length, width, grid, gridNums):
                     textBoxes[x][y].configure(fg="red")
                 count += 1
 
-    def switchDirection():
-        global dir
-        dir = not dir
+
+    '''def getCrossword():
+        year = random.choice(os.listdir(os.getcwd() + "\Crosswords"))
+        year = os.path.basename(year)
+        print(year)
+        month = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year))
+        month = os.path.basename(month)
+        print(month)
+        day = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year + "\\" + month))
+        day = os.path.basename(day)
+        print(day)
+        return os.getcwd() + "\\Crosswords\\" + year + "\\" + month + "\\" + day'''
+
+
 
     root = Tk()
     root.title("Crossword Simulator 2020")
@@ -179,10 +190,6 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.config(height=3, width=20)
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
-    sDirButton = Button(text="Switch Direction", command=switchDirection)
-    sDirButton.config(height=3, width=20)
-    sDirButton.pack(side=LEFT, padx=60, pady=20)
-
     displayClues(acrossString, downString, c)
 
     root.mainloop()
@@ -195,7 +202,7 @@ def displayClues(acrossString, downString, canvas):
 
 
 # Begin main
-file = open("crosswords/1976/01/01.json")
+file = open(getCrossword())
 # direct = Direction()
 
 jsonDta = json.load(file)
