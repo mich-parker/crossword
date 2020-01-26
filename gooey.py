@@ -62,6 +62,10 @@ def windowMaker(length, width, grid, gridNums):
             eFrame = Frame(root, width=40, height=40.5)
             eFrame.pack()
 
+            if gridNums[x] != 0:
+                c.create_text(xr, yr, fill="black",font="Times 20 italic bold",
+                        text="Click the bubbles that are multiples of two.")
+
             e = Entry(eFrame, font=("Comic Sans MS", 24))
             e.place(x=0, y=0, height=40, width=40.5)
             t = c.create_window(xr + rsize / 2, yr + rsize / 2, window=eFrame)
@@ -73,6 +77,10 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.pack()
 
     root.mainloop()
+
+
+def displayClues(acrossString, downString):
+    return
 
 
 # Begin main
