@@ -172,9 +172,6 @@ def windowMaker(length, width, grid, gridNums):
 
     displayClues(acrossString, downString, c)
 
-    # c.bind("<Key>", correctText)
-    # compareAnswer(varList, grid)
-
     root.mainloop()
 
 
