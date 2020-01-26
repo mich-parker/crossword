@@ -58,6 +58,7 @@ def windowMaker(length, width, grid, gridNums):
     userInputs = []
     textBoxes = []
 
+    count = 0
     for y in range(1, 11):
         row = []
         boxRow = []
@@ -74,6 +75,10 @@ def windowMaker(length, width, grid, gridNums):
             e.place(x=0, y=0, height=40, width=39)
             t = c.create_window(xr + rsize / 2, yr + rsize / 2, window=eFrame)
             handles[y][x] = (r, t)
+
+            if gridNums[count] != 0:
+                c.create_text(xr + 10, yr + 10, fill="black", font=("Comic Sans MS", 10), text=gridNums[count])
+            count += 1
         textBoxes.append(boxRow)
         userInputs.append(row)
 
@@ -82,7 +87,15 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.config(height=3, width=20)
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
+    displayClues(acrossString, downString, c)
+
     root.mainloop()
+
+
+def displayClues(acrossString, downString, canvas):
+    c = canvas
+    c.create_text(800, 400, fill="black", font=("Comic Sans MS", 10), text=acrossString)
+    c.create_text(1000, 400, fill="black", font=("Comic Sans MS", 10), text=downString)
 
 
 # Begin main
