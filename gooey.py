@@ -48,6 +48,7 @@ def formatClues(acrossCluesList, downCluesList):
 
 
 def windowMaker(length, width, grid, gridNums):
+    dir = True
     def correctText(currX, currY, *args):
         value = varList[currX][currY].get()
 
@@ -55,11 +56,11 @@ def windowMaker(length, width, grid, gridNums):
         value = value.upper()
 
         varList[currX][currY].set(value)
-        if currX < length and dir == True:
-            textBoxes[currX + 1][currY].focus_set()
+        if currX < length:
+            textBoxes[currX + 1][currY].focus()
 
         if currY < width and dir == False:
-            textBoxes[currX][currY + 1].focus_set()
+            textBoxes[currX][currY + 1].focus()
 
         """ OG Code that kinda works
         curr = varList[x][y]
@@ -89,13 +90,17 @@ def windowMaker(length, width, grid, gridNums):
         for x in range(0, len(textBoxes)):
             for y in range(0, len(textBoxes[x])):
                 if userInputs[count] == grid[count]:
-                    textBoxes[x][y].configure(fg="blue")
+                    textBoxes[x][y].configure(state="disabled")
                     # print(userInputs[count], "is correct")
                 elif userInputs[count] == "":
                     textBoxes[x][y].configure(fg="black")
                 else:
                     textBoxes[x][y].configure(fg="red")
                 count += 1
+
+    def switchDirection():
+        global dir
+        dir = not dir
 
     root = Tk()
     root.title("Crossword Simulator 2020")
@@ -169,6 +174,10 @@ def windowMaker(length, width, grid, gridNums):
     checkButton = Button(text="Check Puzzle", command=compareAnswer)
     checkButton.config(height=3, width=20)
     checkButton.pack(side=LEFT, padx=60, pady=20)
+
+    sDirButton = Button(text="Switch Direction", command=switchDirection)
+    sDirButton.config(height=3, width=20)
+    sDirButton.pack(side=LEFT, padx=60, pady=20)
 
     displayClues(acrossString, downString, c)
 
