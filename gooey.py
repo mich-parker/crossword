@@ -34,12 +34,22 @@ def compareAnswer(userAnswers, answers):
 def windowMaker(length, width, grid, gridNums):
 
     def correctText(*args):
+        value = var.get()
+
+        if len(value) > 1: value = value[len(value) - 1]
+        value = value.upper()
+
+        var.set(value)
+
+        """ OG Code that kinda works
         curr = varList[x][y]
         value = curr.get()
-        textBoxes[x][y].delete(0, END)
-        curr.set(value.upper())
-        if len(value) > 1: curr.set(value[-1])
-        textBoxes[x][y].insert(0, value)
+
+        if len(value) > 1: value = value[len(value) - 1]
+        value = value.upper()
+
+        var.set(value)
+        """
 
     root = Tk()
     root.title("Crossword Simulator 2020")
@@ -58,25 +68,25 @@ def windowMaker(length, width, grid, gridNums):
     (xr, yr) = (1 * rsize, 1 * rsize)
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
-    userInputs = []
+
     textBoxes = []
     varList = []
 
+    count = 0
     for y in range(1, length + 1):
-        row = []
         boxRow = []
         varRow =[]
 
         for x in range(1, width + 1):
-            var = StringVar(root)
 
-            row.append(".")
 
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
 
             eFrame = Frame(root, width=39, height=39)
             eFrame.pack()
+
+            var = StringVar(eFrame)
 
             e = Entry(eFrame, font=("Comic Sans MS", 24), relief="flat", highlightcolor="white", justify="center",
                       textvariable=var)
@@ -86,20 +96,21 @@ def windowMaker(length, width, grid, gridNums):
             # adding each entry to a list, so they can be accessed later (for checking purposes)
             boxRow.append(e)
 
+            var.trace('w', correctText)
+
             e.place(x=0, y=0, height=39, width=39)
-            t = c.create_window(xr + rsize / 2, yr + rsize / 2, window=eFrame)
+            t = c.create_window(xr + 10 + rsize / 2, yr + 10 + rsize / 2, window=eFrame)
             handles[y][x] = (r, t)
 
             if gridNums[count] != 0:
                 c.create_text(xr + 10, yr + 10, fill="black", font=("Comic Sans MS", 10), text=gridNums[count])
             count += 1
         textBoxes.append(boxRow)
-        userInputs.append(row)
         varList.append(varRow)
 
-    for y in range(0, length):
+    '''for y in range(0, length):
         for x in range(0, width):
-            varList[x][y].trace('w', correctText)
+            textBoxes[x][y].bind("<Key>", correctText)'''
 
     root.canvas = c
     checkButton = Button(text="Check Puzzle", command=compareAnswer)
@@ -107,6 +118,8 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
     displayClues(acrossString, downString, c)
+
+    # c.bind("<Key>", correctText)
 
     root.mainloop()
 
