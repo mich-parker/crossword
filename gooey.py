@@ -103,7 +103,7 @@ def windowMaker(length, width, grid, gridNums):
         varRow =[]
 
         for x in range(1, width + 1):
-
+            var = StringVar()
 
             (xr, yr) = (x * rsize, y * rsize)
             r = c.create_rectangle(xr, yr, xr + rsize, yr + rsize)
