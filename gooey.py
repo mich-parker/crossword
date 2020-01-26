@@ -51,7 +51,7 @@ def windowMaker(length, width, grid, gridNums):
     rects[0][0] = c.create_rectangle(xr, yr, xr + guidesize,
                                      yr + guidesize, width=3)
     userInputs = []
-
+    count = 0
     for y in range(1, 11):
         row = []
         for x in range(1, 11):
@@ -62,9 +62,9 @@ def windowMaker(length, width, grid, gridNums):
             eFrame = Frame(root, width=40, height=39)
             eFrame.pack()
 
-            if gridNums[x] != 0:
-                c.create_text(xr, yr, fill="black",font="Times 20 italic bold",
-                        text="Click the bubbles that are multiples of two.")
+            if gridNums[count] != 0:
+                c.create_text(xr+10, yr+10, fill="black", font=("Comic Sans MS", 10), text=gridNums[count])
+            count += 1
 
             e = Entry(eFrame, font=("Comic Sans MS", 24))
             e.place(x=0, y=0, height=40, width=39)
@@ -73,15 +73,21 @@ def windowMaker(length, width, grid, gridNums):
         userInputs.append(row)
 
     root.canvas = c
-    checkButton = Button(text="Check Puzzle", command=compareAnswer)
+    checkButton = Button(text="Check Puzzle", command=compareAnswer('',''))
     checkButton.config(height=3, width=20)
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
+    displayClues(acrossString, downString, c)
+
     root.mainloop()
+    return c
 
 
-def displayClues(acrossString, downString):
-    return
+def displayClues(acrossString, downString, canvas):
+    c = canvas
+    c.create_text(800, 400, fill="black", font=("Comic Sans MS", 10), text=acrossString)
+    c.create_text(1000, 400 , fill="black", font=("Comic Sans MS", 10), text=downString)
+    return None
 
 
 # Begin main
@@ -108,4 +114,4 @@ gridNums = jsonDta['gridnums']
 
 acrossString, downString = formatClues(acrossClues, downClues)
 
-windowMaker(5, 5, grid, gridNums)
+windowMaker(rows, columns, grid, gridNums)
