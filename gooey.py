@@ -40,14 +40,30 @@ def windowMaker(length, width, grid, gridNums):
             for shit in stuff:
                 test.append(shit.get())
         print(test)
-        for i in range(0, len(grid)):
+        '''for i in range(0, len(grid)):
             if test[i] != grid[i]:
-                e = varList[x][y]
-                e.config(background='red')
-
+                
+                e.config(background="red")
                 print(test[i], "That shit wrong yo")
             else:
                 print(test[i], "is correct")
+'''
+        count = 0
+        for x in range(0, len(textBoxes)):
+            for y in range(0, len(textBoxes[x])):
+                if test[count] != grid[count]:
+                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
+                          textvariable=var, foreground="red")
+                    textBoxes[x][y] = e
+                    c.update()
+                    print(test[count], "That shit wrong yo")
+                else:
+                    e = Entry(eFrame, font=("Comic Sans MS", 20), relief="flat", highlightcolor="white", justify="center",
+                              textvariable=var, foreground="black")
+                    textBoxes[x][y] = e
+                    c.update()
+                    print(test[count], "is correct")
+                count += 1
 
     root = Tk()
     root.title("Crossword Simulator 2020")
@@ -120,6 +136,8 @@ def windowMaker(length, width, grid, gridNums):
     checkButton.pack(side=LEFT, padx=60, pady=20)
 
     displayClues(acrossString, downString, c)
+
+    # compareAnswer(varList, grid)
 
     root.mainloop()
 
