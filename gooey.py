@@ -1,8 +1,33 @@
+# Testing file: crosswords/1976/01/01.json
+
+import json
 from tkinter import *
 import tkinter.font as font
 
-def compareAnswer():
-    print("CHECKED")
+
+def addtoDic (words, clues):
+    tempDic = {}
+    for i in range(len(words)):
+        temp = tuple(words[i])
+        clue = clues[i][clues[i].find(' ') + 1:] # removes the clue number from the front of the clue
+        tempDic[temp] = clue
+    return tempDic
+
+
+def formatClues(acrossCluesList, downCluesList):
+    acrossColumn = 'Across:\n'
+    for clue in acrossCluesList:
+        acrossColumn += clue + '\n'
+    downColumn = 'Down\n'
+    for clue in downCluesList:
+        downColumn += clue + '\n'
+    return acrossColumn, downColumn
+
+
+def compareAnswer(userAnswers, answers):
+    for i in range(len(answers)):
+        if userAnswers[i] != answers[i]:
+            break # implement after merging with the gui
 
 
 def windowMaker(length, width, grid, gridNums):
@@ -51,4 +76,28 @@ def windowMaker(length, width, grid, gridNums):
     root.mainloop()
 
 
-windowMaker(5, 5, [], [])
+# Begin main
+file = open(input("Enter name of crossword file to open: "))
+
+jsonDta = json.load(file)
+
+columns = jsonDta['size']['cols']
+rows = jsonDta['size']['rows']
+author = jsonDta['author']
+editor = jsonDta['editor']
+title = jsonDta['title']
+
+acrossWords = jsonDta['answers']['across']
+acrossClues = jsonDta['clues']['across']
+downWords = jsonDta['answers']['down']
+downClues = jsonDta['clues']['down']
+
+allWords = acrossWords + downWords
+allClues = acrossClues + downClues
+
+grid = jsonDta['grid']
+gridNums = jsonDta['gridnums']
+
+acrossString, downString = formatClues(acrossClues, downClues)
+
+windowMaker(5, 5, grid, gridNums)
