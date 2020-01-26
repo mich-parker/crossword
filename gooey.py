@@ -104,20 +104,6 @@ def windowMaker(length, width, grid, gridNums):
                 count += 1
 
 
-    '''def getCrossword():
-        year = random.choice(os.listdir(os.getcwd() + "\Crosswords"))
-        year = os.path.basename(year)
-        print(year)
-        month = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year))
-        month = os.path.basename(month)
-        print(month)
-        day = random.choice(os.listdir(os.getcwd() + "\Crosswords\\" + year + "\\" + month))
-        day = os.path.basename(day)
-        print(day)
-        return os.getcwd() + "\\Crosswords\\" + year + "\\" + month + "\\" + day'''
-
-
-
     root = Tk()
     root.title("Crossword Simulator 2020")
     root.minsize(1500, 950)
